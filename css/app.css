@@ -1,0 +1,630 @@
+/* =========================================================
+   سامانهٔ برنامه و تقویم شیفت دبیرستان افشارچی — استایل سراسری
+   RTL، ریسپانسیو، بدون وابستگی خارجی (فقط فونت وزیرمتن)
+   رنگ ثابت هویت هر مدرسه: افشارچی ۱ = سبزآبی (s1)، افشارچی ۲ = بنفش (s2)
+   ========================================================= */
+
+:root {
+  --navy: #101b35;
+  --ink: #18233b;
+  --ink-2: #3c4a67;
+  --muted: #71809c;
+  --line: #e4e9f2;
+  --paper: #f4f6fb;
+  --card: #fff;
+  --accent: #0e7c6f;
+  --teacher: #b2436a;
+  --hit-bg: #fff6dd;
+  --hit-line: #efc86f;
+  --mark: #ffe58a;
+  --radius: 18px;
+  --shadow-sm: 0 4px 14px rgba(20, 38, 74, .06);
+  --shadow-md: 0 12px 32px rgba(20, 38, 74, .13);
+  --class-col: 132px;
+}
+
+/* متغیرهای هویت رنگی هر مدرسه — روی هر المانی که کلاس s1/s2 داشته باشد سوار می‌شود */
+.s1 { --school: #0e9384; --school-deep: #0a6e62; --school-soft: #e7f5f2; --school-line: #bfe4dc; --school-bright: #2ed3bc; }
+.s2 { --school: #6757e6; --school-deep: #4636c9; --school-soft: #efecfd; --school-line: #cec8f6; --school-bright: #ab9fff; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Vazirmatn', Tahoma, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; }
+h1, h2, h3, h4, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+mark { background: var(--mark); color: inherit; padding: 0 2px; border-radius: 4px; }
+:focus-visible { outline: 2.5px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+.ic {
+  width: 1.15em; height: 1.15em; flex: none;
+  stroke: currentColor; fill: none; stroke-width: 1.9;
+  stroke-linecap: round; stroke-linejoin: round;
+  vertical-align: -0.2em;
+}
+.ic-sm { width: 1em; height: 1em; }
+.ic-xl { width: 30px; height: 30px; }
+
+.wrap { max-width: 1280px; margin-inline: auto; padding-inline: 20px; }
+
+/* ───────────────────────── سربرگ (هیرو) ───────────────────────── */
+
+.hero {
+  color: #fff;
+  background:
+    radial-gradient(ellipse 60% 90% at 8% -10%, rgba(37, 78, 105, .85), transparent 60%),
+    radial-gradient(ellipse 45% 70% at 95% 110%, rgba(14, 147, 132, .35), transparent 60%),
+    linear-gradient(125deg, #101b35, #182943 62%, #13535b);
+}
+.hero-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 26px; padding-block: 34px 38px;
+}
+.hero-badge {
+  display: inline-block; font-size: 12px; font-weight: 700; color: #8fe6d6;
+  border: 1px solid rgba(143, 230, 214, .35); background: rgba(143, 230, 214, .1);
+  padding: 3px 12px; border-radius: 99px; margin-bottom: 12px;
+}
+.hero-title { font-size: clamp(21px, 3.4vw, 31px); font-weight: 900; line-height: 1.5; }
+.hero-sub { color: #b9c6dc; font-size: 13.5px; margin-top: 8px; max-width: 560px; }
+
+.hero-today {
+  flex: none; width: 320px; max-width: 100%;
+  background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 18px; padding: 16px 18px; backdrop-filter: blur(4px);
+}
+.hero-today-date span { font-size: 11.5px; color: #9fb0ca; display: block; }
+.hero-today-date strong { font-size: 16.5px; font-weight: 800; }
+.hero-today-shifts { display: flex; flex-direction: column; gap: 5px; margin-top: 11px; font-size: 13px; font-weight: 600; }
+.hero-today-shifts .ic { color: var(--school-bright); margin-inline-end: 4px; }
+.hero-today-status { margin-top: 11px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, .18); font-size: 12px; color: #c4d2e8; }
+
+/* ───────────────────────── نوار ابزار چسبان: تب‌ها + جستجو ───────────────────────── */
+
+.toolbar-sticky {
+  position: sticky; top: 0; z-index: 60;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.toolbar {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding-block: 12px;
+}
+.tabs {
+  display: inline-flex; gap: 3px; padding: 4px;
+  background: #e7ebf3; border-radius: 15px;
+}
+.tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 11px;
+  color: #63708b; font-weight: 700; font-size: 14px;
+  transition: background .15s, color .15s;
+}
+.tab:hover { color: var(--ink); }
+.tab.is-active { background: #fff; color: var(--accent); box-shadow: var(--shadow-sm); }
+
+.search-box {
+  position: relative; flex: 1 1 320px; max-width: 520px; margin-inline-start: auto;
+}
+.search-box input {
+  width: 100%; padding-block: 11px;
+  padding-inline: 42px 84px;
+  background: #fff; border: 1.5px solid var(--line); border-radius: 14px;
+  outline: none; transition: border-color .15s, box-shadow .15s;
+  appearance: none; -webkit-appearance: none;
+}
+.search-box input::-webkit-search-cancel-button { display: none; }
+.search-box input:focus { border-color: #63b8ad; box-shadow: 0 0 0 4px rgba(14, 147, 132, .13); }
+.search-box input::placeholder { color: #9aa6bd; font-size: 13.5px; }
+.search-icon {
+  position: absolute; inset-inline-start: 13px; top: 50%; translate: 0 -50%;
+  color: #8b97b1; width: 19px; height: 19px; pointer-events: none;
+}
+.search-end {
+  position: absolute; inset-inline-end: 9px; top: 50%; translate: 0 -50%;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.search-end kbd {
+  font-family: inherit; font-size: 12px; color: #8b97b1;
+  border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px;
+  padding: 1px 7px; background: #f6f8fc;
+}
+.clear-btn {
+  width: 26px; height: 26px; display: grid; place-items: center;
+  border-radius: 8px; color: #8b97b1; background: #eef1f7;
+}
+.clear-btn:hover { color: #b02a37; background: #fdeced; }
+
+/* ───────────────────────── چیپ دبیران + متای نتایج ───────────────────────── */
+
+.teacher-chips {
+  display: flex; align-items: center; gap: 7px;
+  overflow-x: auto; padding-block: 16px 4px;
+  scrollbar-width: thin; scrollbar-color: #ccd5e4 transparent;
+}
+.chips-label { flex: none; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.teacher-chip {
+  flex: none; padding: 5px 13px; border-radius: 99px;
+  background: #fff; border: 1px solid var(--line);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-2);
+  transition: all .13s;
+}
+.teacher-chip:hover { border-color: #aeb9d2; translate: 0 -1px; }
+.teacher-chip.is-active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.meta-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  padding-block: 10px 16px;
+}
+#resultMeta { font-size: 13.5px; font-weight: 700; color: var(--ink-2); }
+.meta-hint { font-size: 11.5px; color: var(--muted); }
+
+/* ───────────────────────── دکمه‌ها و برچسب‌ها ───────────────────────── */
+
+.btn-primary, .btn-ghost {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 17px; border-radius: 12px; font-weight: 700; font-size: 13.5px;
+  transition: all .14s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #0a6558; }
+.btn-ghost { background: #fff; border: 1px solid var(--line); color: var(--ink-2); }
+.btn-ghost:hover { background: #eef6f4; border-color: #bcdcd4; }
+.btn-icon {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  background: #fff; border: 1px solid var(--line); border-radius: 12px; color: var(--ink-2);
+  transition: all .13s;
+}
+.btn-icon:hover { background: #eef6f4; border-color: #bcdcd4; color: var(--accent); }
+.btn-icon .ic { width: 19px; height: 19px; }
+.btn-icon-sm { width: 32px; height: 32px; border-radius: 9px; }
+
+.shift-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 11px; border-radius: 99px; font-size: 12px; font-weight: 800; border: 1px solid;
+}
+.shift-badge.is-morning { background: #fff6df; border-color: #f0d9a2; color: #8a5c07; }
+.shift-badge.is-afternoon { background: #eceefc; border-color: #c6cbf2; color: #3d419a; }
+
+.school-chip {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  padding: 3px 11px; border-radius: 99px; font-size: 11.5px; font-weight: 800;
+  background: var(--school-soft); border: 1px solid var(--school-line); color: var(--school-deep);
+}
+
+/* ───────────────────────── کارت کلاس و زنگ‌ها (روزانه + مودال) ───────────────────────── */
+
+.school-group { margin-bottom: 30px; }
+.group-head {
+  position: relative; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: linear-gradient(270deg, var(--school-soft), #fff 70%);
+  border: 1px solid var(--school-line); border-inline-start: 5px solid var(--school);
+  border-radius: var(--radius); padding: 14px 18px; margin-bottom: 15px; overflow: hidden;
+}
+.group-title { font-size: 17.5px; font-weight: 900; }
+.group-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 7px; }
+.group-hours { display: inline-flex; gap: 4px; align-items: center; font-size: 12px; color: var(--muted); font-weight: 600; }
+.group-extra { font-size: 12px; color: var(--muted); }
+.group-shift-art { color: var(--school-deep); opacity: .13; line-height: 0; }
+.group-shift-art .ic-xl { width: 46px; height: 46px; }
+
+.cards-grid {
+  display: grid; gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(min(310px, 100%), 1fr));
+}
+.class-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.class-card-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+  padding: 13px 16px 11px; border-bottom: 1px solid #eef1f7;
+  background: linear-gradient(270deg, var(--school-soft), transparent 75%);
+}
+.class-card-title { font-size: 16px; font-weight: 900; line-height: 1.5; }
+.class-card-code { font-size: 11.5px; color: var(--muted); }
+
+.bells { display: flex; flex-direction: column; gap: 7px; padding: 11px 12px 13px; }
+.bell {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 11px; border-radius: 12px;
+  background: #f7f9fc; border: 1px solid #edf1f7;
+  transition: opacity .15s, filter .15s, background .15s;
+}
+.bell-when { min-width: 88px; display: flex; flex-direction: column; line-height: 1.5; }
+.bell-name { font-size: 12px; font-weight: 800; color: var(--ink-2); }
+.bell-time { font-size: 11px; color: var(--muted); }
+.bell-body { flex: 1; display: flex; flex-direction: column; line-height: 1.55; min-width: 0; }
+.bell-subject { font-size: 14px; font-weight: 800; }
+.bell-teacher { font-size: 12px; color: var(--teacher); font-weight: 600; }
+.bell-hit-dot {
+  width: 23px; height: 23px; flex: none; display: grid; place-items: center;
+  background: #e2f4ea; color: #12714d; border-radius: 50%;
+}
+.bell.is-hit, .mini-lesson.is-hit {
+  background: var(--hit-bg); border-color: var(--hit-line);
+  box-shadow: inset 0 0 0 1px var(--hit-line), 0 4px 14px rgba(230, 168, 60, .14);
+}
+.bell.is-dim, .mini-lesson.is-dim { opacity: .38; filter: saturate(.5); }
+
+/* ───────────────────────── نوار خلاصهٔ روز/هفته ───────────────────────── */
+
+.day-strip {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); padding: 16px 18px; margin-bottom: 22px;
+}
+.day-strip-label { display: block; font-size: 11.5px; color: var(--muted); font-weight: 700; }
+.day-strip-date strong { font-size: 16.5px; font-weight: 900; }
+.day-strip-shifts { display: flex; gap: 8px; flex-wrap: wrap; }
+.strip-shift {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 13px; border-radius: 99px; font-size: 12.5px; font-weight: 800;
+  background: var(--school-soft); border: 1px solid var(--school-line); color: var(--school-deep);
+}
+.live-pill {
+  margin-inline-start: auto; display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12.5px; color: var(--muted); font-weight: 600;
+}
+.live-pill.is-live { color: #0a6e4f; }
+.live-pill.is-live::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: #18b26b;
+  animation: pulse 1.8s ease-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(24, 178, 107, .45); }
+  70% { box-shadow: 0 0 0 7px rgba(24, 178, 107, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(24, 178, 107, 0); }
+}
+
+.flip-hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.flip-hint.inline { margin: 0; margin-inline-start: auto; }
+
+.section-divider {
+  display: flex; align-items: center; gap: 13px;
+  font-size: 15.5px; font-weight: 900; margin-block: 8px 18px;
+}
+.section-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ───────────────────────── حالت خالی ───────────────────────── */
+
+.empty-state { text-align: center; padding: 44px 20px 38px; }
+.empty-state.compact { padding-block: 28px; }
+.empty-icon {
+  width: 66px; height: 66px; margin-inline: auto; display: grid; place-items: center;
+  background: #ebeff6; color: #8593ad; border-radius: 22px;
+}
+.empty-title { font-size: 17px; font-weight: 900; margin-top: 15px; }
+.empty-desc { color: var(--muted); font-size: 13.5px; line-height: 2; max-width: 540px; margin: 7px auto 0; }
+.empty-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 17px; }
+.empty-state > .btn-primary { margin-top: 17px; }
+
+/* ───────────────────────── جدول هفتگی ───────────────────────── */
+
+.board-scroll {
+  overflow-x: auto; border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  scrollbar-width: thin; scrollbar-color: #ccd5e4 transparent;
+}
+.board {
+  display: grid; min-width: 880px;
+  grid-template-columns: var(--class-col) repeat(7, minmax(138px, 1fr));
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+}
+.board-cell { background: #fff; padding: 8px; min-width: 0; }
+.board-corner, .board-day { background: #f2f5fa; padding: 10px 9px; }
+.board-corner {
+  font-size: 12px; font-weight: 800; color: var(--muted);
+  position: sticky; inset-inline-start: 0; z-index: 3;
+}
+.board-day { display: flex; flex-direction: column; line-height: 1.55; }
+.board-day b { font-size: 13.5px; font-weight: 900; }
+.board-day span { font-size: 11px; color: var(--muted); }
+.board-day.is-today { background: #e7f5f2; }
+.board-day.is-weekend { background: #f7f8fa; }
+.today-badge, .off-badge {
+  font-style: normal; font-size: 10px; font-weight: 800; width: fit-content;
+  padding: 0 8px; border-radius: 99px; margin-top: 3px;
+}
+.today-badge { background: var(--accent); color: #fff; }
+.off-badge { background: #e6eaf1; color: var(--muted); }
+
+.cell-class {
+  position: sticky; inset-inline-start: 0; z-index: 2;
+  background: #fbfcfe; display: flex; flex-direction: column; gap: 1px;
+  justify-content: center; line-height: 1.6;
+}
+.cell-class b { font-size: 13.5px; font-weight: 900; }
+.cell-class span { font-size: 11px; color: var(--muted); }
+.match-badge {
+  font-style: normal; width: fit-content; margin-top: 5px;
+  font-size: 10px; font-weight: 800; padding: 1px 8px; border-radius: 99px;
+  background: var(--hit-bg); border: 1px solid var(--hit-line); color: #8a5c07;
+}
+.col-today { background: #f3faf8 !important; }
+.cell-weekend {
+  display: grid; place-items: center;
+  background: repeating-linear-gradient(-45deg, #fbfcfd 0 10px, #f4f6f9 10px 20px);
+}
+.cell-off { font-size: 11px; font-weight: 700; color: #a3aec2; }
+
+.mini-lesson {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 7px; border-radius: 9px; margin-bottom: 6px;
+  background: #f7f9fc; border: 1px solid #edf1f7;
+  transition: opacity .15s, filter .15s;
+}
+.mini-lesson:last-child { margin-bottom: 0; }
+.mini-bell {
+  width: 21px; height: 21px; flex: none; display: grid; place-items: center;
+  border-radius: 7px; font-size: 11px; font-weight: 900;
+  background: var(--school-soft); color: var(--school-deep); border: 1px solid var(--school-line);
+}
+.mini-main { min-width: 0; line-height: 1.5; }
+.mini-main b { display: block; font-size: 12.5px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-main small { font-size: 11px; color: var(--teacher); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+
+/* ───────────────────────── تقویم ماهانه ───────────────────────── */
+
+.cal-toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 13px;
+}
+.cal-nav { display: inline-flex; align-items: center; gap: 8px; }
+.month-title-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 15px; border-radius: 12px;
+  background: #fff; border: 1.5px solid var(--line); color: var(--ink-2);
+  transition: all .13s;
+}
+.month-title-btn:hover { border-color: #9fd2c7; color: var(--accent); }
+.month-title-btn strong { font-size: 16.5px; font-weight: 900; color: var(--ink); min-width: 108px; text-align: center; }
+.month-title-btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+
+.cal-legend {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 7px 18px;
+  font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 13px;
+}
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-item.is-note { color: #8a5c07; font-weight: 700; }
+.legend-swatch { width: 15px; height: 15px; border-radius: 5px; background: var(--school); display: inline-block; }
+
+.cal {
+  display: grid; gap: 6px;
+  grid-template-columns: 36px repeat(7, minmax(0, 1fr));
+}
+.cal-head {
+  text-align: center; font-size: 12.5px; font-weight: 800; color: var(--ink-2);
+  padding: 8px 2px; background: #eef1f7; border-radius: 10px;
+}
+.cal-head.is-weekend { color: #a3aec2; background: #f4f6f9; }
+.cal-week-label {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: .2px;
+}
+.cal-cell {
+  min-height: 122px; padding: 8px;
+  display: flex; flex-direction: column; gap: 6px;
+  background: #fff; border: 1px solid var(--line); border-radius: 14px;
+}
+.cal-cell.is-blank { background: #fafbfd; border-style: dashed; border-color: #edf0f5; }
+.cal-cell.is-weekend { background: #fafbfc; }
+.cal-cell.is-today { border-color: #9fd2c7; box-shadow: 0 0 0 1.5px #9fd2c7, var(--shadow-sm); }
+.cal-cell-top { display: flex; align-items: center; gap: 6px; }
+.cal-daynum {
+  width: 27px; height: 27px; display: grid; place-items: center;
+  font-size: 14px; font-weight: 900; color: var(--ink-2); border-radius: 9px;
+}
+.cal-daynum.is-today { background: var(--accent); color: #fff; }
+.cal-today-tag { font-size: 10px; font-weight: 800; color: var(--accent); }
+.cal-off {
+  align-self: center; margin-top: 6px;
+  font-size: 10.5px; font-weight: 700; color: #a3aec2;
+  border: 1px dashed #dfe5ee; padding: 2px 10px; border-radius: 99px;
+}
+.cal-nomatch { text-align: center; color: #c3cbdc; font-size: 16px; margin-top: 8px; }
+
+.shift-block {
+  width: 100%; text-align: start;
+  display: flex; flex-direction: column; gap: 0;
+  padding: 6px 8px 5px; border-radius: 10px; border: 1px solid var(--school-line);
+  line-height: 1.55;
+  transition: transform .12s, box-shadow .12s;
+}
+.shift-block:hover { transform: translateY(-1.5px); box-shadow: 0 7px 16px rgba(20, 38, 74, .14); }
+.shift-block:active { transform: scale(.97); }
+.shift-block.is-morning { background: var(--school-soft); color: var(--school-deep); }
+.shift-block.is-afternoon {
+  background: linear-gradient(135deg, var(--school), var(--school-deep));
+  color: #fff; border-color: transparent;
+}
+.sb-top { display: flex; align-items: center; gap: 4px; font-size: 12px; min-width: 0; }
+.sb-name-full { font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-name-short { display: none; font-weight: 900; }
+.sb-count {
+  margin-inline-start: auto; flex: none; font-style: normal;
+  font-size: 10px; font-weight: 800; padding: 0 7px; border-radius: 99px;
+  background: color-mix(in srgb, currentColor 13%, transparent);
+}
+.sb-shift { font-size: 10.5px; opacity: .85; font-weight: 600; }
+
+.cal-hint { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--muted); margin-top: 12px; }
+.cal-noresult {
+  margin-top: 14px; padding: 13px 16px; border-radius: 13px;
+  background: #fff6df; border: 1px solid #f0d9a2; color: #7a5507; font-size: 13px; line-height: 2;
+}
+
+/* ───────────────────────── انتخاب‌گر ماه ───────────────────────── */
+
+.month-picker {
+  position: fixed; z-index: 90; width: 312px; max-width: calc(100vw - 16px);
+  background: #fff; border: 1px solid var(--line); border-radius: 18px;
+  box-shadow: var(--shadow-md); padding: 15px;
+  opacity: 0; transform: translateY(-5px); pointer-events: none;
+  transition: opacity .16s, transform .16s;
+}
+.month-picker.is-open { opacity: 1; transform: none; pointer-events: auto; }
+.mp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.mp-year { font-size: 17px; font-weight: 900; }
+.mp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.mp-month {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  padding: 9px 4px; border-radius: 11px; line-height: 1.5;
+  background: #fbfcfe; border: 1px solid var(--line);
+  font-size: 13.5px; font-weight: 700; color: var(--ink-2);
+  transition: all .12s;
+}
+.mp-month:hover { border-color: #9fd2c7; color: var(--accent); }
+.mp-month small { font-size: 9.5px; font-weight: 700; color: var(--accent); }
+.mp-month.is-current { border-color: #9fd2c7; }
+.mp-month.is-selected { background: var(--navy); border-color: var(--navy); color: #fff; }
+.mp-month.is-selected small { color: #8fe6d6; }
+.mp-today {
+  width: 100%; margin-top: 11px; padding: 8px;
+  border-radius: 11px; border: 1px dashed #bcdcd4; color: var(--accent);
+  font-size: 12.5px; font-weight: 800;
+}
+.mp-today:hover { background: #eef6f4; }
+
+/* ───────────────────────── مودال ───────────────────────── */
+
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; place-items: center; padding: 18px;
+  background: rgba(13, 22, 40, .56); backdrop-filter: blur(3px);
+  opacity: 0; transition: opacity .18s;
+}
+.modal-backdrop.is-open { opacity: 1; }
+.modal-card {
+  width: min(900px, 100%); max-height: 88dvh;
+  background: var(--paper); border-radius: 22px; overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transform: translateY(12px) scale(.975); transition: transform .2s cubic-bezier(.2,.9,.3,1.2);
+  display: flex; flex-direction: column;
+}
+.modal-backdrop.is-open .modal-card { transform: none; }
+#modalContent { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+.modal-head {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 18px 20px 15px; border-bottom: 1px solid var(--school-line);
+  background: linear-gradient(270deg, var(--school-soft), #fff 80%);
+}
+.modal-title { font-size: 19px; font-weight: 900; line-height: 1.55; }
+.modal-subtitle { font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 1px; }
+.modal-head-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 10px; }
+.modal-summary { font-size: 12px; color: var(--muted); font-weight: 700; }
+.modal-close { margin-inline-start: auto; flex: none; }
+.modal-body { overflow-y: auto; padding: 18px 20px 20px; }
+.modal-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  padding: 13px 20px; background: #fff; border-top: 1px solid var(--line);
+}
+
+/* ───────────────────────── اسکلت لودینگ و انیمیشن نما ───────────────────────── */
+
+.skeleton-text { text-align: center; color: var(--muted); font-size: 12.5px; margin-top: 14px; }
+.skl {
+  border-radius: 14px;
+  background: linear-gradient(100deg, #e9edf4 40%, #f5f8fc 50%, #e9edf4 60%);
+  background-size: 200% 100%; animation: shimmer 1.3s infinite linear;
+}
+.skl-strip { height: 84px; margin-bottom: 16px; border-radius: var(--radius); }
+.skl-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(310px, 100%), 1fr)); gap: 15px; }
+.skl-card { height: 232px; border-radius: var(--radius); }
+@keyframes shimmer { from { background-position: 120% 0; } to { background-position: -80% 0; } }
+
+.view-enter { animation: viewIn .3s ease both; }
+@keyframes viewIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+
+/* ───────────────────────── فوتر ───────────────────────── */
+
+.site-footer {
+  margin-top: 44px; padding-block: 20px 26px;
+  background: #fff; border-top: 1px solid var(--line);
+}
+.footer-inner {
+  display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 12px; color: var(--muted); text-align: center;
+}
+.noscript-note {
+  position: fixed; inset-inline: 16px; bottom: 16px; z-index: 200;
+  background: #b02a37; color: #fff; border-radius: 12px; padding: 13px 18px; text-align: center;
+}
+
+/* ───────────────────────── ریسپانسیو ───────────────────────── */
+
+@media (max-width: 900px) {
+  .hero-inner { flex-direction: column; align-items: stretch; }
+  .hero-today { width: 100%; }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 14.5px; }
+  .wrap { padding-inline: 13px; }
+  .hero-inner { padding-block: 26px 28px; }
+
+  .toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+  .search-box { order: -1; max-width: none; margin: 0; }
+  .tabs { display: flex; }
+  .tab { flex: 1; justify-content: center; padding-inline: 6px; font-size: 13.5px; }
+  .search-end kbd { display: none; }
+
+  .day-strip { padding: 14px; gap: 12px; }
+  .live-pill { margin-inline-start: 0; }
+
+  .group-head { padding: 12px 14px; }
+  .group-shift-art { display: none; }
+  .group-title { font-size: 16px; }
+  .bell-when { min-width: 76px; }
+  .bell-time { font-size: 10.5px; }
+
+  .cal { grid-template-columns: 21px repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .cal-cell { min-height: 94px; padding: 5px 4px; gap: 4px; border-radius: 10px; }
+  .cal-head { font-size: 10px; padding: 6px 1px; border-radius: 8px; }
+  .cal-week-label { font-size: 9px; }
+  .cal-daynum { width: 22px; height: 22px; font-size: 12px; border-radius: 7px; }
+  .cal-today-tag { display: none; }
+  .cal-off { font-size: 9px; padding: 1px 5px; }
+
+  .shift-block { padding: 4px 5px; border-radius: 8px; }
+  .sb-name-full { display: none; }
+  .sb-name-short { display: inline; }
+  .sb-top { font-size: 11px; gap: 3px; }
+  .sb-top .ic { width: 12px; height: 12px; }
+  .sb-shift { font-size: 9px; }
+  .sb-count { font-size: 8.5px; padding-inline: 4px; }
+
+  .month-title-btn strong { min-width: 0; font-size: 15px; }
+  .modal-backdrop { padding: 0; place-items: end center; }
+  .modal-card { width: 100%; max-height: 93dvh; border-radius: 22px 22px 0 0; }
+  .modal-head, .modal-body, .modal-foot { padding-inline: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; transition-duration: .001s !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ───────────────────────── چاپ ───────────────────────── */
+
+@media print {
+  .hero, .toolbar-sticky, .teacher-chips, .meta-row, .modal-backdrop, .month-picker, .site-footer, .cal-toolbar .btn-ghost { display: none !important; }
+  body { background: #fff; }
+  .class-card, .board, .cal-cell { box-shadow: none; break-inside: avoid; }
+}
