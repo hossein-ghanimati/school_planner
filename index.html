@@ -119,6 +119,24 @@
     <div class="noscript-note">برای استفاده از این سامانه باید JavaScript مرورگر فعال باشد.</div>
   </noscript>
 
-  <script type="module" src="./js/app.js"></script>
+  <!--
+    پروژهٔ کاملاً استاتیک با HTML/JS خام: بدون ماژول، بدون بیلد، بدون هیچ پکیجی.
+    کافی است همین فایل index.html را در مرورگر باز کنید (حتی با دابل‌کلیک، بدون سرور).
+    ترتیب فایل‌ها مهم است (هر فایل API خودش را روی window.SP می‌گذارد):
+    ثابت‌ها و دیتا ← ابزارها و تقویم ← منطق ← کامپوننت‌ها و نماها ← شروع‌کننده (app)
+  -->
+  <script src="./js/config.js"></script>
+  <script src="./js/data.js"></script>
+  <script src="./js/dom.js"></script>
+  <script src="./js/jalali.js"></script>
+  <script src="./js/shift.js"></script>
+  <script src="./js/search.js"></script>
+  <script src="./js/components.js"></script>
+  <script src="./js/views/daily.js"></script>
+  <script src="./js/views/weekly.js"></script>
+  <script src="./js/views/monthly.js"></script>
+  <script src="./js/month-picker.js"></script>
+  <script src="./js/modal.js"></script>
+  <script src="./js/app.js"></script>
 </body>
 </html>
