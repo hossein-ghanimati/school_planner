@@ -116,7 +116,7 @@ mark { background: var(--mark); color: inherit; padding: 0 2px; border-radius: 4
 .tab.is-active { background: #fff; color: var(--accent); box-shadow: var(--shadow-sm); }
 
 .search-box {
-  position: relative; flex: 1 1 320px; max-width: 520px; margin-inline-start: auto;
+  position: relative; flex: 1 1 320px; max-width: 520px; margin-inline-start: auto; max-height: max-content;
 }
 .search-box input {
   width: 100%; padding-block: 11px;
