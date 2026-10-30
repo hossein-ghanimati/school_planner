@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="سامانهٔ برنامهٔ روزانه، هفتگی و تقویم شیفت دبیرستان دوشیفتهٔ رضاق افشارچی">
+  <title>برنامه و تقویم شیفت دبیرستان افشارچی</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/app.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- اسپرایت آیکون‌ها -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+      <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+      <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.8 4-5.5 8-5.5s7.2 1.7 8 5.5"/></symbol>
+      <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2.5 9 12 4l9.5 5L12 14 2.5 9Z"/><path d="M6.5 11.2V16c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-4.8"/><path d="M21.5 9v5.5"/></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+      <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.4" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.4" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-brand">
+        <span class="hero-badge">ناحیهٔ ۲ زنجان · دورهٔ اول متوسطه</span>
+        <h1 class="hero-title">برنامه و تقویم شیفت دبیرستان رضاق افشارچی</h1>
+        <p class="hero-sub">برنامهٔ روزانه و هفتگی کلاس‌ها و تقویم چرخش شیفت دو مدرسه — سال تحصیلی ۱۴۰۵–۱۴۰۶</p>
+      </div>
+      <aside class="hero-today" id="heroToday" aria-live="polite">
+        <div class="hero-today-date"><span>امروز</span><strong>در حال بارگذاری…</strong></div>
+      </aside>
+    </div>
+  </header>
+
+  <div class="toolbar-sticky">
+    <div class="wrap toolbar">
+      <nav class="tabs" role="tablist" aria-label="نمای برنامه">
+        <button type="button" class="tab is-active" role="tab" id="tab-daily" data-view="daily" aria-selected="true">
+          <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg> روزانه
+        </button>
+        <button type="button" class="tab" role="tab" id="tab-weekly" data-view="weekly" aria-selected="false" tabindex="-1">
+          <svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg> هفتگی
+        </button>
+        <button type="button" class="tab" role="tab" id="tab-monthly" data-view="monthly" aria-selected="false" tabindex="-1">
+          <svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg> تقویم ماهانه
+        </button>
+      </nav>
+
+      <div class="search-box">
+        <svg class="ic search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="searchInput" type="search" autocomplete="off" enterkeyhint="search"
+               placeholder="جستجوی دبیر، درس یا کلاس… مثلاً «حسینی»"
+               aria-label="جستجو در برنامه؛ روی هر سه نما اثر می‌گذارد">
+        <span class="search-end">
+          <button type="button" id="clearSearch" class="clear-btn" hidden aria-label="پاک‌کردن جستجو">
+            <svg class="ic" aria-hidden="true"><use href="#i-x"/></svg>
+          </button>
+          <kbd title="میانبر: فوکس روی جستجو">/</kbd>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="teacher-chips" id="teacherChips" aria-label="جستجوی سریع بر اساس دبیر"></div>
+
+    <div class="meta-row">
+      <p id="resultMeta" role="status"></p>
+      <p class="meta-hint">نمای روزانه و هفتگی همیشه «امروز» و «هفتهٔ جاری» هستند؛ فقط تقویم ماهانه قابل پیمایش است.</p>
+    </div>
+
+    <section id="viewRoot" aria-label="محتوای نمای انتخاب‌شده">
+      <div class="skeleton" aria-hidden="true">
+        <div class="skl skl-strip"></div>
+        <div class="skl-row"><div class="skl skl-card"></div><div class="skl skl-card"></div><div class="skl skl-card"></div></div>
+        <p class="skeleton-text">در حال بارگذاری تقویم جلالی و برنامه…</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>دبیرستان دورهٔ اول متوسطهٔ رضاق افشارچی · مدیریت: داود امیرخانی</span>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <span><span id="totalTeachers">–</span> دبیر · ۹ کلاس · ۲ شیفت چرخشی</span>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <span id="libSource">تقویم جلالی</span>
+    </div>
+  </footer>
+
+  <!-- انتخاب‌گر ماه جلالی -->
+  <div id="monthPicker" class="month-picker" role="dialog" aria-label="انتخاب ماه" hidden></div>
+
+  <!-- مودال جزئیات روز -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript-note">برای استفاده از این سامانه باید JavaScript مرورگر فعال باشد.</div>
+  </noscript>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
