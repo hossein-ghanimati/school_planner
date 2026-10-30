@@ -1,0 +1,340 @@
+﻿<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سامانه برنامه و تقویم دبیرستان افشارچی</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#101b35;--ink:#18233b;--muted:#73809b;--line:#e6eaf2;--paper:#f5f7fb;--teal:#0e9384;--gold:#e6a83c}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Vazirmatn',Tahoma,sans-serif}button,input,select{font:inherit}.hero{background:radial-gradient(ellipse at 10% 0%,#254e69 0%,transparent 36%),linear-gradient(125deg,#101b35,#182943 65%,#13535b);color:white}.wrap{max-width:1280px;margin:auto;padding-left:20px;padding-right:20px}.control{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 13px;color:var(--ink);outline:none;transition:.2s}.control:focus{border-color:#449d9a;box-shadow:0 0 0 3px #0e938418}.tab{border:0;border-radius:12px;padding:11px 18px;color:#63708b;background:transparent;cursor:pointer;font-weight:700}.tab.active{background:#fff;color:#116c69;box-shadow:0 4px 16px #14294a12}.class-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 7px 22px #1d31520a}.day-box{border-top:1px solid #edf0f5;padding-top:15px}.lesson{display:flex;gap:10px;align-items:center;border-radius:10px;background:#f7f8fb;padding:9px 11px;margin-top:6px}.lesson.hit{background:#e8f6f3;outline:1px solid #b9e2db}.period{min-width:65px;color:#77829a;font-size:11px}.pill{border-radius:99px;padding:5px 10px;font-size:11px;font-weight:700}.calendar-shell{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));}.cal-head{text-align:center;background:#f4f6fa;color:#697690;padding:12px 3px;font-size:12px;font-weight:700;border-bottom:1px solid var(--line)}.cal-cell{min-height:120px;border-left:1px solid #edf0f4;border-bottom:1px solid #edf0f4;padding:9px;position:relative}.cal-cell:nth-child(7n){border-left:0}.cal-cell.empty{background:#fafbfd}.date-num{font-size:15px;font-weight:800;color:#27344d}.date-num.todaymark{color:#fff;background:#147f76;border-radius:99px;width:30px;height:30px;display:grid;place-items:center}.shift{font-size:10px;padding:5px 7px;border-radius:8px;line-height:1.6;margin-top:7px;font-weight:700}.morning{background:#e5f4f1;color:#106c63}.afternoon{background:#fff3df;color:#91601c}.todaytag{font-size:9px;color:#0b7e75;margin-right:4px}.arrow{border:1px solid #e4e9f0;background:#fff;border-radius:11px;padding:8px 14px;font-weight:700;cursor:pointer}.arrow:hover{background:#f2f8f7}@media(max-width:700px){.wrap{padding-left:13px;padding-right:13px}.cal-cell{min-height:88px;padding:5px 3px}.date-num{font-size:13px}.shift{font-size:9px;padding:4px 3px}.cal-head{font-size:10px;padding:9px 1px}.period{min-width:54px}.lesson{gap:5px;padding:8px}.filters{display:grid;grid-template-columns:1fr 1fr}.filters #searchInput{grid-column:1/-1}}
+</style></head>
+<body>
+<header class="hero">
+ <div class="wrap py-7 md:py-9">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+   <div><div class="text-xs text-teal-200 font-bold mb-2">ناحیه ۲ زنجان</div><h1 class="text-2xl md:text-3xl font-extrabold">برنامه درسی دبیرستان رزاق افشارچی</h1><p class="text-sm text-slate-300 mt-2">برنامه هفتگی کلاس‌ها و تقویم شیفت سال تحصیلی ۱۴۰۵–۱۴۰۶</p></div>
+   <div class="rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-sm"><div class="text-slate-300 text-xs">سال تحصیلی</div><div class="font-bold mt-1">مهر ۱۴۰۵ تا خرداد ۱۴۰۶</div></div>
+  </div>
+ </div>
+</header>
+<main class="wrap py-6 md:py-8">
+ <nav class="flex gap-2 p-1.5 rounded-2xl bg-slate-100 w-fit mb-5" aria-label="نما"><button class="tab active" id="scheduleTab">برنامه هفتگی کلاس‌ها</button><button class="tab" id="calendarTab">تقویم شیفت</button></nav>
+ <section id="scheduleView">
+  <div class="bg-white rounded-2xl border border-slate-200 p-4 md:p-5 mb-6">
+   <div class="flex items-center justify-between gap-3 flex-wrap mb-3"><div><h2 class="font-extrabold">جستجو و فیلتر برنامه</h2><p class="text-xs text-slate-500 mt-1">جستجو در نام کلاس، درس، دبیر و روز به‌صورت زنده</p></div><span class="pill bg-slate-100 text-slate-600" id="resultCount"></span></div>
+   <div class="filters flex flex-col md:flex-row gap-3"><input id="searchInput" class="control flex-1" type="search" placeholder="نام کلاس، درس یا دبیر…"><select id="branchFilter" class="control"><option value="all">همه شعبه‌ها</option><option value="1">دبیرستان افشارچی ۱</option><option value="2">دبیرستان افشارچی ۲</option></select><select id="dayFilter" class="control"><option value="all">همه روزها</option><option>شنبه</option><option>یکشنبه</option><option>دوشنبه</option><option>سه‌شنبه</option><option>چهارشنبه</option></select></div>
+  </div>
+  <div id="scheduleContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-5"></div><div id="noResult" class="hidden text-center py-16 text-slate-500">موردی با این مشخصات پیدا نشد.</div>
+ </section>
+ <section id="calendarView" class="hidden">
+  <div class="bg-white rounded-2xl border border-slate-200 p-4 md:p-5 mb-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+   <div><h2 class="font-extrabold text-lg">تقویم ماهانه شیفت مدارس</h2><p class="text-xs text-slate-500 mt-1">شروع مبنا: چهارشنبه ۱ مهر ۱۴۰۵ · تغییر شیفت در آغاز هر هفته، شنبه</p></div>
+   <div class="flex items-center gap-2"><button id="prevMonth" class="arrow" aria-label="ماه قبل">→ ماه قبل</button><strong id="monthTitle" class="min-w-36 text-center"></strong><button id="nextMonth" class="arrow" aria-label="ماه بعد">ماه بعد ←</button></div>
+  </div>
+  <div class="flex gap-2 flex-wrap mb-4"><span class="pill morning">افشارچی ۱ · صبح</span><span class="pill afternoon">افشارچی ۲ · بعدازظهر</span><span class="pill bg-slate-100 text-slate-600">چرخه هر شنبه عوض می‌شود</span></div>
+  <div class="calendar-shell"><div id="calendarGrid" class="cal-grid"></div></div>
+  <p class="text-xs text-slate-500 leading-7 mt-4">قاعدهٔ چرخش: ۱ مهر ۱۴۰۵ (چهارشنبه) افشارچی ۱ صبح و افشارچی ۲ بعدازظهر است. هفتهٔ ابتدایی از چهارشنبه تا جمعه ادامه دارد؛ با شروع شنبهٔ بعد، شیفت‌ها جابه‌جا و سپس هر شنبه یک‌بار عوض می‌شوند.</p>
+ </section>
+</main>
+<footer class="mt-10 border-t border-slate-200 bg-white py-5 text-center text-xs text-slate-500">دبیرستان دوره اول متوسطه رزاق افشارچی با مدیریت داود امیرخانی  ـــ طراحی و اجرا: جلیل دویران.</footer>
+<script>
+const scheduleData = [
+            // افشارچی ۱
+            {
+                className: "هفتم ۱ · 7-1",
+                branch: "1",
+                days: {
+                    "شنبه": [
+                        {subject: "عربی", teacher: "قهرمانی"},
+                        {subject: "ریاضی", teacher: "حسینی"},
+                        {subject: "علوم", teacher: "طوماری"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "تفکر", teacher: "کوثری‌نیا"},
+                        {subject: "ریاضی", teacher: "حسینی"},
+                        {subject: "پیام", teacher: "مصطفوی"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "املا و نگارش", teacher: "دوستی"},
+                        {subject: "علوم/مطالعات", teacher: "طوماری / شیری"},
+                        {subject: "مطالعات", teacher: "شیری"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "فارسی", teacher: "رحمانی"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"},
+                        {subject: "قرآن", teacher: "قدوسی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "فرهنگ و هنر", teacher: "ارجمندفر"},
+                        {subject: "انگلیسی", teacher: "بهبودی"},
+                        {subject: "کار و فناوری", teacher: "رحمانی"}
+                    ]
+                }
+            },
+            {
+                className: "هفتم ۲ · 7-2",
+                branch: "1",
+                days: {
+                    "شنبه": [
+                        {subject: "ریاضی", teacher: "حسینی"},
+                        {subject: "علوم", teacher: "طوماری"},
+                        {subject: "عربی", teacher: "قهرمانی"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "ریاضی", teacher: "حسینی"},
+                        {subject: "مطالعات", teacher: "شیری"},
+                        {subject: "فرهنگ و هنر", teacher: "بلباسی"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "علوم/مطالعات", teacher: "طوماری / شیری"},
+                        {subject: "قرآن", teacher: "قدوسی"},
+                        {subject: "املا و نگارش", teacher: "دوستی"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "تربیت بدنی", teacher: "سلیمی"},
+                        {subject: "فارسی", teacher: "رحمانی"},
+                        {subject: "کار و فناوری", teacher: "ارجمندفر"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "تفکر", teacher: "قاسمی"},
+                        {subject: "پیام", teacher: "قدوسی"},
+                        {subject: "انگلیسی", teacher: "بهبودی"}
+                    ]
+                }
+            },
+            {
+                className: "هشتم ۱ · 8-1",
+                branch: "1",
+                days: {
+                    "شنبه": [
+                        {subject: "انگلیسی", teacher: "بهبودی"},
+                        {subject: "عربی", teacher: "قهرمانی"},
+                        {subject: "ریاضی", teacher: "حسینی"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "پیام", teacher: "مصطفوی"},
+                        {subject: "فرهنگ و هنر", teacher: "بلباسی"},
+                        {subject: "ریاضی", teacher: "حسینی"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "قرآن", teacher: "قدوسی"},
+                        {subject: "املا و نگارش", teacher: "دوستی"},
+                        {subject: "فارسی", teacher: "رحمانی"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "تفکر", teacher: "قاسمی"},
+                        {subject: "مطالعات", teacher: "خداکرمی"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "علوم/مطالعات", teacher: "خداکرمی"},
+                        {subject: "کار و فناوری", teacher: "رحمانی"},
+                        {subject: "علوم", teacher: "خداکرمی"}
+                    ]
+                }
+            },
+            {
+                className: "نهم ۱ · 9-1",
+                branch: "1",
+                days: {
+                    "شنبه": [
+                        {subject: "علوم", teacher: "طوماری"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"},
+                        {subject: "انگلیسی", teacher: "بهبودی"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "فرهنگ و هنر", teacher: "بلباسی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"},
+                        {subject: "مطالعات", teacher: "شیری"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "علوم/مطالعات", teacher: "طوماری / شیری"},
+                        {subject: "عربی", teacher: "رحمانی"},
+                        {subject: "قرآن", teacher: "قدوسی"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "املا و نگارش", teacher: "دوستی"},
+                        {subject: "کار و فناوری", teacher: "ارجمندفر"},
+                        {subject: "آمادگی", teacher: "خداکرمی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "فارسی", teacher: "رحمانی"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"},
+                        {subject: "پیام", teacher: "قدوسی"}
+                    ]
+                }
+            },
+            {
+                className: "نهم ۲ · 9-2",
+                branch: "1",
+                days: {
+                    "شنبه": [
+                        {subject: "آمادگی", teacher: "خداکرمی"},
+                        {subject: "انگلیسی", teacher: "بهبودی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "مطالعات", teacher: "شیری"},
+                        {subject: "پیام‌های آسمان", teacher: "مصطفوی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "عربی", teacher: "رحمانی"},
+                        {subject: "علوم/مطالعات", teacher: "طوماری / شیری"},
+                        {subject: "علوم", teacher: "طوماری"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "کار و فناوری", teacher: "ارجمندفر"},
+                        {subject: "املا و نگارش", teacher: "دوستی"},
+                        {subject: "فارسی", teacher: "رحمانی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "قرآن", teacher: "قدوسی"},
+                        {subject: "فرهنگ و هنر", teacher: "ارجمندفر"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"}
+                    ]
+                }
+            },
+            // افشارچی ۲
+            {
+                className: "هفتم ۳ · 7-3",
+                branch: "2",
+                days: {
+                    "شنبه": [
+                        {subject: "ریاضی", teacher: "حسینی"},
+                        {subject: "تفکر", teacher: "کوثری‌نیا"},
+                        {subject: "پیام", teacher: "مصطفوی"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "علوم/مطالعات", teacher: "خداکرمی / فتحی"},
+                        {subject: "انگلیسی", teacher: "بهبودی"},
+                        {subject: "ریاضی", teacher: "حسینی"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "عربی", teacher: "قهرمانی"},
+                        {subject: "فرهنگ و هنر", teacher: "بلباسی"},
+                        {subject: "کار و فناوری", teacher: "قهرمانی"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "مطالعات", teacher: "فتحی"},
+                        {subject: "فارسی", teacher: "مسلمی"},
+                        {subject: "املا و نگارش", teacher: "مسلمی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "قرآن", teacher: "دوستی"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"},
+                        {subject: "علوم", teacher: "خداکرمی"}
+                    ]
+                }
+            },
+            {
+                className: "هفتم ۴ · 7-4",
+                branch: "2",
+                days: {
+                    "شنبه": [
+                        {subject: "علوم", teacher: "خداکرمی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"},
+                        {subject: "تفکر", teacher: "کوثری‌نیا"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "ریاضی", teacher: "زنده‌دل"},
+                        {subject: "علوم/مطالعات", teacher: "خداکرمی / فتحی"},
+                        {subject: "مطالعات", teacher: "فتحی"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "املا و نگارش", teacher: "مسلمی"},
+                        {subject: "عربی", teacher: "قهرمانی"},
+                        {subject: "فرهنگ و هنر", teacher: "بلباسی"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "فارسی", teacher: "مسلمی"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"},
+                        {subject: "پیام", teacher: "قدوسی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "انگلیسی", teacher: "بهبودی"},
+                        {subject: "قرآن", teacher: "دوستی"},
+                        {subject: "کار و فناوری", teacher: "ارجمندفر"}
+                    ]
+                }
+            },
+            {
+                className: "هشتم ۲ · 8-2",
+                branch: "2",
+                days: {
+                    "شنبه": [
+                        {subject: "ریاضی", teacher: "زنده‌دل"},
+                        {subject: "عربی", teacher: "مصطفوی"},
+                        {subject: "علوم", teacher: "خداکرمی"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "علوم/مطالعات", teacher: "خداکرمی / فتحی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"},
+                        {subject: "انگلیسی", teacher: "بهبودی"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "فرهنگ و هنر", teacher: "بلباسی"},
+                        {subject: "املا و نگارش", teacher: "مسلمی"},
+                        {subject: "کار و فناوری", teacher: "ارجمندفر"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "تفکر", teacher: "سلیمی"},
+                        {subject: "پیام", teacher: "قدوسی"},
+                        {subject: "مطالعات", teacher: "فتحی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "تربیت بدنی", teacher: "سلیمی"},
+                        {subject: "فارسی", teacher: "مسلمی"},
+                        {subject: "قرآن", teacher: "قدوسی"}
+                    ]
+                }
+            },
+            {
+                className: "نهم ۳ · 9-3",
+                branch: "2",
+                days: {
+                    "شنبه": [
+                        {subject: "عربی", teacher: "مصطفوی"},
+                        {subject: "علوم", teacher: "خداکرمی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"}
+                    ],
+                    "یکشنبه": [
+                        {subject: "انگلیسی", teacher: "بهبودی"},
+                        {subject: "علوم/مطالعات", teacher: "خداکرمی / فتحی"},
+                        {subject: "ریاضی", teacher: "زنده‌دل"}
+                    ],
+                    "دوشنبه": [
+                        {subject: "کار و فناوری", teacher: "ارجمندفر"},
+                        {subject: "فرهنگ و هنر", teacher: "ارجمندفر"},
+                        {subject: "املا و نگارش", teacher: "مسلمی"}
+                    ],
+                    "سه‌شنبه": [
+                        {subject: "پیام", teacher: "قدوسی"},
+                        {subject: "مطالعات", teacher: "فتحی"},
+                        {subject: "تربیت بدنی", teacher: "سلیمی"}
+                    ],
+                    "چهارشنبه": [
+                        {subject: "فارسی", teacher: "مسلمی"},
+                        {subject: "آمادگی", teacher: "خداکرمی"},
+                        {subject: "قرآن", teacher: "دوستی"}
+                    ]
+                }
+            }
+        ];
+const container=document.getElementById('scheduleContainer'), searchInput=document.getElementById('searchInput'), branchFilter=document.getElementById('branchFilter'), dayFilter=document.getElementById('dayFilter');
+const periodsName=['زنگ اول','زنگ دوم','زنگ سوم'];
+function renderSchedules(){const q=searchInput.value.trim().toLocaleLowerCase('fa');let count=0;container.innerHTML='';scheduleData.forEach(cls=>{if(branchFilter.value!=='all'&&cls.branch!==branchFilter.value)return;let groups=[];Object.entries(cls.days).forEach(([day,lessons])=>{if(dayFilter.value!=='all'&&day!==dayFilter.value)return;let matched=lessons.map((p,i)=>({p,i,hit:!q||`${p.subject} ${p.teacher} ${cls.className} ${day}`.toLocaleLowerCase('fa').includes(q)})).filter(x=>x.hit);if(matched.length)groups.push(`<div class="day-box"><h3 class="text-xs font-extrabold text-teal-700 mb-2">${day}</h3>${matched.map(({p,i})=>`<div class="lesson ${q?'hit':''}"><span class="period">${periodsName[i]}</span><div><span class="font-bold text-sm">${p.subject}</span><span class="text-xs text-rose-600 mr-2">${p.teacher}</span></div></div>`).join('')}</div>`)});if(!groups.length)return;count++;const title=cls.branch==='1'?'دبیرستان افشارچی ۱':'دبیرستان افشارچی ۲';const card=document.createElement('article');card.className='class-card';card.innerHTML=`<div class="px-5 py-4 flex justify-between items-center bg-slate-900 text-white"><div><h2 class="font-extrabold text-lg">${cls.className}</h2><div class="text-xs text-slate-300 mt-1">برنامه هفتگی · ۳ زنگ در روز</div></div><span class="pill bg-white/10 text-slate-100">${title}</span></div><div class="p-5 grid sm:grid-cols-2 gap-x-6 gap-y-4">${groups.join('')}</div>`;container.appendChild(card)});document.getElementById('noResult').classList.toggle('hidden',count!==0);document.getElementById('resultCount').textContent=`${count} کلاس`}
+[searchInput,branchFilter,dayFilter].forEach(el=>el.addEventListener(el===searchInput?'input':'change',renderSchedules));renderSchedules();
+// Jalali calendar: derive exact Persian dates with the browser's built-in ICU calendar, avoiding approximate leap-year tables.
+const months=['مهر','آبان','آذر','دی','بهمن','اسفند','فروردین','اردیبهشت','خرداد'];
+const monthKeys=[[1405,7],[1405,8],[1405,9],[1405,10],[1405,11],[1405,12],[1406,1],[1406,2],[1406,3]];
+const fmt=new Intl.DateTimeFormat('fa-IR-u-ca-persian-nu-latn',{year:'numeric',month:'numeric',day:'numeric',timeZone:'UTC'});
+function jParts(d){let o={};fmt.formatToParts(d).forEach(x=>{if(x.type!=='literal')o[x.type]=x.value});return {year:+o.year,month:+o.month,day:+o.day}}
+const firstDate=new Date(Date.UTC(2026,8,23)), lastDate=new Date(Date.UTC(2027,6,1));
+let jalaliDates={};for(let t=firstDate.getTime();t<=lastDate.getTime();t+=86400000){const d=new Date(t),jp=jParts(d),key=`${jp.year}-${jp.month}`;if(monthKeys.some(([y,m])=>y===jp.year&&m===jp.month)){(jalaliDates[key]??=[]).push({date:d,day:jp.day})}}
+let monthIndex=0;const weekdays=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+function faNum(x){return String(x).replace(/[0-9]/g,n=>'۰۱۲۳۴۵۶۷۸۹'[+n])}
+function renderCalendar(){let [jy,jm]=monthKeys[monthIndex],arr=jalaliDates[`${jy}-${jm}`]||[],grid=document.getElementById('calendarGrid');document.getElementById('monthTitle').textContent=`${months[monthIndex]} ${faNum(jy)}`;document.getElementById('prevMonth').disabled=monthIndex===0;document.getElementById('nextMonth').disabled=monthIndex===monthKeys.length-1;grid.innerHTML=weekdays.map(x=>`<div class="cal-head">${x}</div>`).join('');if(!arr.length){grid.innerHTML+='<div class="p-8">تاریخ‌های این ماه در دسترس نیستند.</div>';return}let offset=(arr[0].date.getUTCDay()+1)%7;for(let i=0;i<offset;i++)grid.innerHTML+='<div class="cal-cell empty"></div>';arr.forEach(({date,day})=>{let elapsed=Math.floor((date.getTime()-firstDate.getTime())/86400000),weekIndex=Math.floor((elapsed+4)/7),oneMorning=weekIndex%2===0;let weekday=(date.getUTCDay()+1)%7;let isWeekend=weekday===6;let b1=oneMorning?'صبح':'بعدازظهر',b2=oneMorning?'بعدازظهر':'صبح';let show1=branchFilter.value!=='2',show2=branchFilter.value!=='1';let cls1=oneMorning?'morning':'afternoon',cls2=oneMorning?'afternoon':'morning';grid.innerHTML+=`<div class="cal-cell ${isWeekend?'bg-slate-50':''}"><div class="date-num">${faNum(day)}${day===1&&monthIndex===0?'<span class="todaytag">مبدأ</span>':''}</div>${show1?`<div class="shift ${cls1}">افشارچی ۱ · ${b1}</div>`:''}${show2?`<div class="shift ${cls2}">افشارچی ۲ · ${b2}</div>`:''}</div>`});let fill=(7-(grid.children.length%7))%7;for(let i=0;i<fill;i++)grid.innerHTML+='<div class="cal-cell empty"></div>'}
+document.getElementById('prevMonth').onclick=()=>{if(monthIndex>0){monthIndex--;renderCalendar()}};document.getElementById('nextMonth').onclick=()=>{if(monthIndex<8){monthIndex++;renderCalendar()}};branchFilter.addEventListener('change',renderCalendar);renderCalendar();
+const scheduleTab=document.getElementById('scheduleTab'),calendarTab=document.getElementById('calendarTab');function setView(which){let cal=which==='calendar';document.getElementById('scheduleView').classList.toggle('hidden',cal);document.getElementById('calendarView').classList.toggle('hidden',!cal);scheduleTab.classList.toggle('active',!cal);calendarTab.classList.toggle('active',cal)}scheduleTab.onclick=()=>setView('schedule');calendarTab.onclick=()=>setView('calendar');
+</script></body></html>
