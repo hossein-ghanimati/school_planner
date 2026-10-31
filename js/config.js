@@ -35,15 +35,15 @@
 
   /** زنگ‌ها و ساعت برگزاری در هر شیفت */
   const BELLS = [
-    { name: 'زنگ اول', morning: '۷:۳۰ تا ۹:۰۰', afternoon: '۱۲:۴۵ تا ۱۴:۱۵' },
-    { name: 'زنگ دوم', morning: '۹:۱۵ تا ۱۰:۴۵', afternoon: '۱۴:۳۰ تا ۱۶:۰۰' },
-    { name: 'زنگ سوم', morning: '۱۱:۰۰ تا ۱۲:۳۰', afternoon: '۱۶:۱۵ تا ۱۷:۴۵' },
+    { name: 'زنگ اول', morning: '۸:۰۰ تا ۹:۱۵', afternoon: '۱۳:۰۰ تا ۱۴:۱۵' },
+    { name: 'زنگ دوم', morning: '۹:۴۵ تا ۱۱:۰۰', afternoon: '۱۴:۳۰ تا ۱۶:۰۰' },
+    { name: 'زنگ سوم', morning: '۱۱:۱۵ تا ۱۲:۳۰', afternoon: '۱۶:۱۵ تا ۱۷:۳۰' },
   ];
 
   /** بازهٔ کامل هر شیفت — from/to برای محاسبهٔ «وضعیت الان» */
   const SHIFTS = {
-    morning: { key: 'morning', label: 'صبح', range: '۷:۳۰ تا ۱۲:۳۰', from: '07:30', to: '12:30' },
-    afternoon: { key: 'afternoon', label: 'بعدازظهر', range: '۱۲:۴۵ تا ۱۷:۴۵', from: '12:45', to: '17:45' },
+    morning: { key: 'morning', label: 'صبح', range: '۸:۰۰ تا ۱۲:۳۰', from: '08:00', to: '12:30' },
+    afternoon: { key: 'afternoon', label: 'بعدازظهر', range: '۱۳:۰۰ تا ۱۷:۳۰', from: '13:00', to: '17:30' },
   };
 
   /**

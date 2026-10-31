@@ -248,8 +248,6 @@
     bindEvents();
     renderHero();
 
-    $('#libSource').textContent =
-      J.source === 'date-fns-jalali' ? 'تقویم جلالی با date-fns-jalali' : 'تقویم جلالی (حالت جایگزین)';
     $('#totalTeachers').textContent = toFa(SP.ALL_TEACHERS.length);
 
     const initialView = location.hash.replace('#', '');
